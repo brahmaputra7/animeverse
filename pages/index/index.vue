@@ -14,13 +14,15 @@
         </div>
 
         <v-container>
+            
             <v-row>
                 <v-col cols="12" class="d-flex justify-center">
                     <div style="max-width:500px">
-                        <v-text-field outlined rounded prepend-inner-icon="mdi-magnify"></v-text-field>
+                        <v-text-field outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
                     </div>
                 </v-col>
             </v-row>
+
             <v-row>
                 <template v-if="!animeLoader">
                     <v-col cols="6" sm="3" md="2" v-for="item,index in topAnimeData" :key="index">
@@ -67,17 +69,26 @@ export default {
             topAnimeData:[],
             animeLoader:false,
             paginationNumber:1,
-            paginationData:{}
+            paginationData:{},
+            searchKey:''
         }
     },
     created(){
-        this.retrieveTopAnime()
+        this.retrieveAnime()
     },
     methods:{
         //retrieve top anime
-        retrieveTopAnime(){
+        retrieveAnime(event){
+            if(event=='search'){
+                this.paginationNumber = 1
+            }
             this.animeLoader = true
-            axios.get('https://api.jikan.moe/v4/top/anime?limit=24')
+            let search = ''
+            console.log(this.searchKey)
+            if(this.searchKey!==''){
+                search = '&q='+this.searchKey
+            }
+            axios.get('https://api.jikan.moe/v4/anime?limit=24&page='+this.paginationNumber+search)
                 .then(res=>{
                     this.topAnimeData = res.data.data
                     this.paginationData = res.data.pagination
@@ -91,18 +102,7 @@ export default {
     },
     watch:{
         paginationNumber(newV){
-            this.animeLoader = true
-            //retireve content by current page
-            axios.get('https://api.jikan.moe/v4/top/anime?limit=24&page='+newV)
-                .then(res=>{
-                    this.topAnimeData = res.data.data
-                    this.paginationData = res.data.pagination
-                    console.log(this.paginationData)
-                    console.log(this.topAnimeData)
-                })
-                .finally(res=>{
-                    this.animeLoader = false
-                })
+            this.retrieveAnime()
         }
     }
 }

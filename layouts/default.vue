@@ -52,7 +52,7 @@ export default {
     },
     goToHome(){
       this.$router.push('/')
-      window.scrollTo(0,0);
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
   }
 }

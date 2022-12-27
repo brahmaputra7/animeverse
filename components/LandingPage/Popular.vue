@@ -15,7 +15,7 @@
                 </v-col>
                 <template v-if="!animeLoader">
                     <v-col cols="6" sm="3" md="2" v-for="item,index in topAnimeData" :key="index">
-                        <div class="animeCard mb-10">
+                        <div class="animeCard mb-10" @click="viewDetails(item)">
                             <v-img
                                 lazy-src="https://picsum.photos/id/11/10/6"
                                 height="250"
@@ -31,7 +31,7 @@
                     </v-col>
                 </template>
                 <template v-else>
-                    <v-col cols="6" sm="3" md="2" v-for="index in 12" :key="index">
+                    <v-col cols="6" sm="3" md="2" v-for="index in 6" :key="index">
                         <v-skeleton-loader
                             type="card"
                             height="300"
@@ -82,6 +82,10 @@ export default {
               .finally(res=>{
                   this.animeLoader = false
               })
+      },
+      viewDetails(item){
+        console.log(item)
+        this.$router.push('/details/' + item.mal_id)
       }
   },
   watch:{
@@ -116,6 +120,9 @@ export default {
       padding:0 5px;
       z-index:9;
       border-radius:0 0 10px 10px;
+  }
+  .v-img {
+    border-radius:10px;
   }
 }
 

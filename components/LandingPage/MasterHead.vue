@@ -8,7 +8,7 @@
                         <img class="mastHead__img" src="/img/dino.png" width="300px" />
                     </div>
                     <div>
-                        <div style="font-size:2rem">Welcome to animeverse!</div>
+                        <div style="font-size:1.8rem">Welcome to animeverse!</div>
                         <div>Discover anime, create a watchlist, and enjoy your holliday season.</div>
                         <div class="mt-3">
                             <v-btn rounded outlined dark>Set Up your Watchlist<v-icon>mdi-arrow-right</v-icon></v-btn>

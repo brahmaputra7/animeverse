@@ -1,9 +1,27 @@
 <template>
   <v-app dark>
+
     <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':this.$vuetify.theme.dark}" @click="reverseTheme">
       <v-icon v-if="this.$vuetify.theme.dark" class="yellow--text">mdi-white-balance-sunny</v-icon>
       <v-icon v-else >mdi-moon-waning-crescent</v-icon>
     </div>
+
+    
+    
+    <!-- Navigation Bar -->
+    <div class="nverseNavbar" :class="{'grey darken-4':this.$vuetify.theme.dark, 'grey lighten-4' :!this.$vuetify.theme.dark}">
+      <v-container>
+        <v-row class="justify-space-between">
+          <v-col class="d-flex justify-space-between">
+          <img src="/img/logo.svg" width="130px" @click="$router.push('/')">
+            <v-icon>mdi-magnify</v-icon>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+    <!-- -->
+    
+
     <nuxt/>
   </v-app>
 </template>
@@ -47,5 +65,24 @@ export default {
   z-index:10;
   padding:10px;
   border-radius:100%;
+}
+
+
+.nverseNavbar {
+  width:100%;
+  position:fixed;
+  z-index:10;
+  height:60px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    transition:0.4s;
+    cursor:pointer;
+    &:hover {
+      filter: invert(100%);
+      transform:scale(0.8);
+    }
+  }
 }
 </style>

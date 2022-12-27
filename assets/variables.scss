@@ -2,3 +2,20 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+
+$background-purple: #3A0C5F;
+
+.nverseContent {
+    padding-top:60px;
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:500,600,700&display=swap');
+
+html, body, .v-application {
+  font-family:'Quicksand', sans-serif !important;
+  overflow:auto !important;
+  height:100%;
+  font-size:14px;
+}

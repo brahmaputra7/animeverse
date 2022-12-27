@@ -15,10 +15,20 @@ export default {
 
     }
   },
+  created(){
+    //defining theme from latest user state
+    if(!localStorage.dark==undefined){
+      localStorage.dark = 'dark'
+    }else{
+      this.$vuetify.theme.dark = localStorage.dark
+    }
+  },  
   methods:{
     reverseTheme(){
       //theme switching
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      //saving current theme option
+      localStorage.dark = this.$vuetify.theme.dark
     }
   }
 }
@@ -30,7 +40,7 @@ export default {
     transform:scale(1.1);
   }
   transition:0.2s;
-  position:absolute;
+  position:fixed;
   cursor:pointer;
   bottom:20px;
   right:20px;

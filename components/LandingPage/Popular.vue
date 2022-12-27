@@ -100,6 +100,7 @@ export default {
 <style lang="scss">
 .animeCard {
   position:relative;
+  cursor:pointer;
   &:hover {
       .animeCard__text {
           height:fit-content;

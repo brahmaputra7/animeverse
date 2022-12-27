@@ -8,7 +8,7 @@
       <Popular/>
 
       <!-- Including All List of Manga -->
-      <AllList/>
+      <AllList keep-alive/>
 
       
   </div>

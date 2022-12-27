@@ -22,7 +22,7 @@
                 
             <!-- Populate: Anime Data-->
             <template v-if="!animeLoader">
-                <v-col cols="6" sm="3" md="2" v-for="item,index in animeData" :key="index">
+                <v-col cols="6" sm="3" md="2" v-for="item,index in animeData" :key="index"  @click="viewDetails(item)">
                     <div class="animeCard mb-10">
                         <v-img
                             lazy-src="https://picsum.photos/id/11/10/6"
@@ -118,6 +118,10 @@ export default {
               .finally(res=>{
                   this.animeLoader = false
               })
+      },
+      viewDetails(item){
+        console.log(item)
+        this.$router.push('/details/' + item.mal_id)
       }
   },
   watch:{

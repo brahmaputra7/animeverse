@@ -15,14 +15,15 @@
 </template>
 
 <script>
-import MasterHead from '~/components/Index/MasterHead.vue'
-import Popular from '~/components/Index/Popular.vue'
-import AllList from '~/components/Index/AllList.vue'
+
+import MasterHead from '~/components/LandingPage/MasterHead.vue'
+import Popular from '~/components/LandingPage/Popular.vue'
+import AllList from '~/components/LandingPage/AllList.vue'
 
 export default {
   components:{
-      AllList,
       MasterHead,
+      AllList,
       Popular
   }
 }

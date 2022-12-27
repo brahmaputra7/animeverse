@@ -1,6 +1,8 @@
+<!-- POPULAR ANIME -->
+
 <template>
        <v-container>
-            <v-row>
+            <v-row class="pb-10">
                 <v-col cols="12" class="d-flex justify-space-between align-center pb-0">
                     <div style="font-size:1.2rem">RECENT POPULAR ANIME</div>
                     <v-pagination
@@ -70,7 +72,7 @@ export default {
           if(this.searchKey!==''){
               search = '&q='+this.searchKey
           }
-          axios.get('https://api.jikan.moe/v4/top/anime?limit=12&page='+this.paginationNumber+search)
+          axios.get('https://api.jikan.moe/v4/top/anime?limit=6&page='+this.paginationNumber+search)
               .then(res=>{
                   this.topAnimeData = res.data.data
                   this.paginationData = res.data.pagination
@@ -90,7 +92,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+
+<style lang="scss">
 .animeCard {
   position:relative;
   &:hover {
@@ -115,4 +118,5 @@ export default {
       border-radius:0 0 10px 10px;
   }
 }
+
 </style>

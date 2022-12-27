@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
 
-    <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':this.$vuetify.theme.dark}" @click="reverseTheme">
+    <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':$vuetify.theme.dark}" @click="reverseTheme">
       <v-icon v-if="this.$vuetify.theme.dark" class="yellow--text">mdi-white-balance-sunny</v-icon>
       <v-icon v-else >mdi-moon-waning-crescent</v-icon>
     </div>
@@ -9,12 +9,14 @@
     
     
     <!-- Navigation Bar -->
-    <div class="nverseNavbar" :class="{'grey darken-4':this.$vuetify.theme.dark, 'grey lighten-4' :!this.$vuetify.theme.dark}">
+    <div class="nverseNavbar" :class="{'grey darken-4':$vuetify.theme.dark, 'grey lighten-4' :!$vuetify.theme.dark}">
       <v-container>
         <v-row class="justify-space-between">
           <v-col class="d-flex justify-space-between">
-          <img src="/img/logo.svg" width="130px" @click="$router.push('/')">
-            <v-icon>mdi-magnify</v-icon>
+          <img src="/img/logo.svg" width="130px" @click="goToHome()">
+          <div>
+            POPULAR
+          </div>
           </v-col>
         </v-row>
       </v-container>
@@ -47,6 +49,10 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       //saving current theme option
       localStorage.dark = this.$vuetify.theme.dark
+    },
+    goToHome(){
+      this.$router.push('/')
+      window.scrollTo(0,0);
     }
   }
 }

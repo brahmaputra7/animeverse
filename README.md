@@ -8,7 +8,7 @@ API Source:
 https://docs.api.jikan.moe/#tag/top
 
 Explanation:
-https://github.com/brahmaputra7/animeverse/blob/main/Explanation.md
+https://github.com/brahmaputra7/animeverse -- Explanation.md
 
 ![alt text](https://brahmaptr.com/readme/1.png)
 

@@ -4,7 +4,7 @@
        <v-container>
             <v-row class="pb-10">
                 <v-col cols="12" class="d-flex justify-space-between align-center pb-0">
-                    <div style="font-size:1.2rem">RECENT POPULAR ANIME</div>
+                    <div style="font-size:1.2rem">DISCOVER POPULAR ANIME</div>
                     <v-pagination
                         :disabled="animeLoader"
                         v-model="paginationNumber"
@@ -23,7 +23,7 @@
                                 :src="item.images.jpg.image_url"
                             ></v-img>
                             <div class="animeCard__text mt-1">
-                                {{ item.title_english }}
+                                {{ item.title }}
                                 
                                 {{ item.score }}
                             </div>
@@ -34,7 +34,7 @@
                     <v-col cols="6" sm="3" md="2" v-for="index in 6" :key="index">
                         <v-skeleton-loader
                             type="card"
-                            height="300"
+                            height="290"
                         ></v-skeleton-loader>
                     </v-col>
                 </template>
@@ -104,8 +104,7 @@ export default {
   &:hover {
       .animeCard__text {
           height:fit-content;
-          background:grey;
-          height:80px;
+          background:grey;  
           padding:10px;
           transform:translateY(-40%);
           background-color:#353535;

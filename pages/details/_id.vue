@@ -1,5 +1,5 @@
 <template>
-    <div class="nverseContent">
+    <div class="nverseContent pb-10">
         <template v-if="!retrieveLoader">
         <div  class="animePreview">
             <div class="animePreview__darkoverlay d-flex">
@@ -12,9 +12,7 @@
         </div>
         <v-container class="animeDetail">
             <v-row>
-                <v-col cols="12" md="8">
-
-                    
+                <v-col cols="12" md="8">       
                     <div class="mt-5 animeDetail__title">{{ animeData.title }}</div>
                     <div class="animeDetail__alternatives mt-2">
                         <b>Alternatives:</b>
@@ -49,33 +47,53 @@
                     <div class="my-5">
                         <v-btn color="orange" outlined><v-icon>mdi-bookmark-plus-outline</v-icon><b>ADD TO WATCHLIST</b></v-btn>
                     </div>
-
-
-
-                    
-
+     
                     <v-divider class="my-3"></v-divider>
 
-                    
-
-                    <div class="animeDetail__desc mt-3">{{ animeData.synopsis }}</div>
-
-                    <v-btn class="mt-2" x-small rounded outlined>READ MORE</v-btn>
-                    
-                    <div class="mt-2">
-                        <i>Source: {{ animeData.source }}</i>
+                    <div class="itemSection">
+                        <div  class="itemSection__title"><b>Synopsis</b></div>
+                        <div class="itemSection__desc">{{ animeData.synopsis }}</div>
+                        
                     </div>
 
-                    
+                    <div class="itemSection mt-5" v-if="animeData.background!==null">
+                        <div  class="itemSection__title"><b>Background</b></div>
+                        <div class="itemSection__desc">{{ animeData.background }}</div>
+                    </div>
 
                 </v-col>
 
                 <v-col cols="12" md="4">
-                    <div class="mt-5">
-                        <iframe width="100%" height="250px" :src="animeData.trailer.embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                    
+                
+                    <div class="watchNow mt-5">
+
+                        <div class="mt-5">
+                            <iframe width="100%" height="250px" :src="animeData.trailer.embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="my-3">
+                           <v-btn block><v-icon>mdi-link</v-icon>Visit Official Page</v-btn>
+                        </div>
+
+                        <div class="watchNow__title text-center">
+                            Watch now on:
+                        </div>
+                        
+                        <div class="watchNow__item"  @click="goToLink(item.url)" v-for="item,index in animeData.streaming" :key="index">
+                            <v-icon class="watchNow__item__icon yellow--text">mdi-play</v-icon> {{ item.name }}
+                        </div>
                     </div>
                 </v-col>
 
+            </v-row>
+
+            <v-row>
+                <v-col cols="12" md="4">
+                    
+
+                </v-col>
             </v-row>
         </v-container>
         </template>
@@ -104,8 +122,10 @@ export default {
         }
     },
     created(){
-        console.log(this.$route.params)
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
+        if(this.$route.params.id==undefined){
+            this.$router.push('/')
+        }
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.retrieveAnimeFullById()
     },
     methods:{
@@ -124,6 +144,10 @@ export default {
         },
         numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        goToLink(url){
+            console.log(url)
+            window.open(url, '_blank')
         }
     }
 }
@@ -135,18 +159,24 @@ export default {
             font-size:2.5rem;
                 line-height: 1.1;
         }
-        .animeDetail__desc {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;;
-        }
         .animeDetail__alternatives {
             max-width:500px;
             font-size:(0.8em);
         }
     }
-
+    
+    .itemSection {
+        .itemSection__title {
+            font-size:1.4rem;
+            border-bottom:2px solid $outline-brown;
+            padding-bottom:5px;
+            margin-bottom:10px;
+        }
+        .itemSection__desc {
+            font-size:0.9rem;
+        }
+    }
+    
     .animePreview {
         width:100%;
         height:350px;
@@ -218,6 +248,30 @@ export default {
         width:100%;
         flex-flow:row wrap;
     }
+
+    .watchNow {
+
+        .watchNow__title {
+            font-weight: bold;
+            padding:10px;
+        }
+        .watchNow__item {
+            &:hover {
+                .watchNow__item__icon {
+                    font-size:1rem;
+                }
+            }
+            cursor:pointer;
+            padding:10px;
+            border:1px solid grey;
+            transition:0.3s;
+        }
+        .watchNow__item__icon {
+            font-size:0;
+            transition:0.3s;
+        }
+    }
+  
 
     @media only screen and (max-width: 600px) {
         .animeDetail {      

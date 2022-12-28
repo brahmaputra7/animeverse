@@ -31,7 +31,7 @@
                             :src="item.images.jpg.image_url"
                         ></v-img>
                         <div class="animeCard__text mt-1">
-                            {{ item.title_english }}
+                            {{ item.title }}
                             
                             {{ item.score }}
                         </div>
@@ -42,7 +42,7 @@
                 <v-col cols="6" sm="3" md="2" v-for="index in 12" :key="index">
                     <v-skeleton-loader
                         type="card"
-                        height="300"
+                        height="270"
                     ></v-skeleton-loader>
                 </v-col>
             </template>

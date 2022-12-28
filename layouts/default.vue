@@ -29,16 +29,24 @@
 
     <Footer></Footer>
 
+    <WatchlistEmpty/>
+    <AddToWatchlist/>
+
   </v-app>
 </template>
 
 <script>
 import Footer from '~/components/Default/Footer.vue'
+import WatchlistEmpty from '~/components/Watchlist/WatchlistEmpty.vue'
+import AddToWatchlist from '~/components/Watchlist/AddToWatchlist.vue'
+
 
 export default {
   
   components:{
-        Footer
+        Footer,
+        WatchlistEmpty,
+        AddToWatchlist,
     },
 
   data(){
@@ -47,13 +55,18 @@ export default {
     }
   },
   created(){
-    console.log(localStorage.dark)
     //defining theme from latest user state
     if(localStorage.dark==undefined){
       localStorage.dark = 'dark'
     }else{
       this.$vuetify.theme.dark = localStorage.dark
+    } 
+    if(localStorage.WatchlistData!=undefined&&localStorage.WatchlistData!=='undefined'){
+      console.log("hepped")
+      console.log(localStorage)
+      this.$store.commit('store/updateWatchlistData',JSON.parse(localStorage.WatchlistData))
     }
+
   },  
   methods:{
     reverseTheme(){

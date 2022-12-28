@@ -29,9 +29,6 @@
                         <div class="d-flex justify-space-between" style="flex-flow:row wrap">
                             <h2>{{ item.name }}</h2>
                             <div>
-                                <v-btn text>
-                                    Edit
-                                </v-btn>
                                 <v-btn text @click="deleteWatchlist(index)">
                                     delete
                                 </v-btn>
@@ -44,16 +41,18 @@
                         <template v-else>
                             <div v-for="itemAnime,indexAnime in item.data" :key="indexAnime+'anime'" class="watchlistItem ">
                                 <div class="d-flex align-center justify-space-between" style="flex-flow:row wrap">
+                                    <div class="d-flex align-center" style="flex-flow:row wrap">
                                         <div class="watchlistItem__imagepreview mr-4">
                                             <v-img class="mr-4" :src="itemAnime.image" width="100px" style="flex-grow:0"></v-img>
                                         </div>
-                                        <div class="my-3">
+                                        <div class="my-3" style="max-width:500px">
                                             <div class="watchlistItem__title">{{ itemAnime.title }}</div>
                                             <div class="watchlistItem__alternatives">{{ itemAnime.alternatives }}</div>
                                         </div>
+                                    </div>
                                     <div>
                                         <v-btn class="error">
-                                            <v-icon >mdi-delete</v-icon>
+                                            <v-icon @click="deleteItem(index,indexAnime)">mdi-delete</v-icon>
                                         </v-btn>
                                     </div>
                                 </div>
@@ -67,8 +66,9 @@
             <v-card class="pa-5">
                 Create a new watchlist
                 <v-text-field dense label="Watchlist name" class="mt-4" hide-details v-model="newWatchlist" outlined></v-text-field>
+                <small class="red--text" v-if="!checkWatchlist()">Watchlist with this name is already exist.</small>
                 <div class="d-flex justify-end mt-2">
-                    <v-btn class="green" :disabled="newWatchlist==''" small @click="createWatchlist(0)"><v-icon small>mdi-plus</v-icon>Add</v-btn>
+                    <v-btn class="green" :disabled="newWatchlist==''||!checkWatchlist()" small @click="createWatchlist(0)"><v-icon small>mdi-plus</v-icon>Add</v-btn>
                 </div>
             </v-card>
         </v-dialog>
@@ -81,33 +81,15 @@ export default {
         return {
             newWatchlist:'',
             addWatchListDialog:false,
-            watchlistData:[
-                {
-                    name:'Watchlist Group 1',
-                    data:[
-                        {
-                            mal_id:41467,
-                            image:"https://cdn.myanimelist.net/images/anime/1764/126627t.jpg",
-                            title:"Bleach: Sennen Kessen-hen",
-                            alternatives:"Bleach: Sennen Kessen-hen , Bleach: Thousand-Year Blood War Arc , BLEACH 千年血戦篇 , Bleach: Thousand-Year Blood War"
-                        },
-                        {
-                            mal_id:41467,
-                            image:"https://cdn.myanimelist.net/images/anime/1764/126627t.jpg",
-                            title:"Bleach: Sennen Kessen-hen",
-                            alternatives:"Bleach: Sennen Kessen-hen , Bleach: Thousand-Year Blood War Arc , BLEACH 千年血戦篇 , Bleach: Thousand-Year Blood War"
-                        },
-                        {
-                            mal_id:41467,
-                            image:"https://cdn.myanimelist.net/images/anime/1764/126627t.jpg",
-                            title:"Bleach: Sennen Kessen-hen",
-                            alternatives:"Bleach: Sennen Kessen-hen , Bleach: Thousand-Year Blood War Arc , BLEACH 千年血戦篇 , Bleach: Thousand-Year Blood War"
-                        }
-                    ]
-                }
-            ]
+            watchlistData:[],
+            emptyDialog:false
         }
     },
+    created(){
+        if(localStorage.WatchlistData!=undefined&&localStorage.WatchlistData!=='undefined'){
+            this.watchlistData = JSON.parse(localStorage.WatchlistData)
+        }
+    }, 
     methods:{
         createWatchlist(){
             this.addWatchListDialog = false
@@ -116,10 +98,32 @@ export default {
                 data:[]
             })
             this.newWatchlist = ''
+            this.updateWatchlistData()
         },
         deleteWatchlist(index){
             console.log(index)
             this.watchlistData.splice(index, 1)
+            this.updateWatchlistData()
+        },
+        deleteItem(indexWatchlsit,indexItem){
+            this.watchlistData[indexWatchlsit].data.splice(indexItem, 1)
+            this.updateWatchlistData()
+        },
+        checkWatchlist(){
+            if(this.watchlistData.findIndex(p => p.name == this.newWatchlist)==-1){
+                return true
+            } else {
+                return false
+            }
+        },
+        updateWatchlistData(){
+            let watchlistData = JSON.parse(JSON.stringify(this.watchlistData))
+            this.$store.commit('store/updateWatchlistData', watchlistData)
+        }
+    },
+    watch:{
+        '$store.state.store.WatchlistDataUpdated'(newV,oldV){
+            console.log(newV)
         }
     }
 }

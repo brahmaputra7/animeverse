@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="my-5">
-                        <v-btn color="orange" outlined><v-icon>mdi-bookmark-plus-outline</v-icon><b>ADD TO WATCHLIST</b></v-btn>
+                        <v-btn @click="addToWatchlist()" color="orange" outlined><v-icon>mdi-bookmark-plus-outline</v-icon><b>ADD TO WATCHLIST</b></v-btn>
                     </div>
      
                     <v-divider class="my-3"></v-divider>
@@ -97,6 +97,7 @@
             </v-row>
         </v-container>
         </template>
+
         <template v-else>
             <v-skeleton-loader type="image,image">
 
@@ -108,6 +109,7 @@
             </v-skeleton-loader>
             </v-container>
         </template>
+
     </div>
 </template>
 
@@ -115,10 +117,13 @@
 import axios from 'axios'
 
 export default {
+    components:{
+    },
     data(){
         return {
             animeData:{},
-            retrieveLoader:true
+            retrieveLoader:true,
+            emptyDialog:false
         }
     },
     created(){
@@ -148,6 +153,25 @@ export default {
         goToLink(url){
             console.log(url)
             window.open(url, '_blank')
+        },
+        addToWatchlist(){
+            if(this.$store.state.store.WatchlistData.length==0){
+                this.$store.commit('store/updateWatchlistEmptyDialog',true)
+            }else{
+                let watchlistAttributes = {
+                    mal_id:this.animeData.mal_id,
+                    title:this.animeData.title,
+                    image:this.animeData.images.jpg.image_url,
+                    alternatives:''
+                }
+                this.animeData.titles.forEach((item,index)=>{
+                    watchlistAttributes.alternatives += item.title
+                    if(index!==this.animeData.title.length-1){
+                        watchlistAttributes.alternatives += ', '
+                    } 
+                })
+                this.$store.commit('store/addToWatchlist', watchlistAttributes)
+            }
         }
     }
 }

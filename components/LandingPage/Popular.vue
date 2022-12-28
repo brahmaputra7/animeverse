@@ -37,7 +37,7 @@
                             <div class="animeCard__text mt-1">
                                 
                             <div class="animeCard__text__add mb-2">
-                               <v-btn block x-small class="green" text><v-icon x-small>mdi-plus</v-icon> ADD TO WATCHLIST</v-btn>
+                               <v-btn block x-small class="green" text @click.stop="addToWatchlist(item)"><v-icon x-small>mdi-plus</v-icon> ADD TO WATCHLIST</v-btn>
                             </div>
 
                                 {{ item.title }}
@@ -101,7 +101,26 @@ export default {
       viewDetails(item){
         console.log(item)
         this.$router.push('/details/' + item.mal_id)
-      }
+      },
+      addToWatchlist(val){
+            if(this.$store.state.store.WatchlistData.length==0){
+                this.$store.commit('store/updateWatchlistEmptyDialog',true)
+            }else{
+                let watchlistAttributes = {
+                    mal_id:val.mal_id,
+                    title:val.title,
+                    image:val.images.jpg.image_url,
+                    alternatives:''
+                }
+                val.titles.forEach((item,index)=>{
+                    watchlistAttributes.alternatives += item.title
+                    if(index!==val.title.length-1){
+                        watchlistAttributes.alternatives += ', '
+                    } 
+                })
+                this.$store.commit('store/addToWatchlist', watchlistAttributes)
+            }
+        }
   },
   watch:{
       paginationNumber(newV){

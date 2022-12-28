@@ -20,7 +20,7 @@
             </v-row>
             <v-row v-if="watchlistData.length==0">
                 <v-col cols="12">
-                    You have no watchlist. Please create a new one.
+                    You dont have any watchlist. Please create a new one.
                 </v-col>
             </v-row>
             <v-row v-else>

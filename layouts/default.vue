@@ -15,8 +15,8 @@
           <v-col class="d-flex justify-space-between">
           <img src="/img/logo.svg" width="130px" @click="goToHome()">
           <div>
-            <v-btn small text fab @click="$router.push('/#search')"><v-icon>mdi-magnify</v-icon></v-btn>
-            <v-btn small text fab><v-icon>mdi-playlist-play</v-icon></v-btn>
+            <v-btn small text fab @click="goToSearch()"><v-icon>mdi-magnify</v-icon></v-btn>
+            <v-btn small text fab @click="$router.push('/watchlist')"><v-icon>mdi-playlist-play</v-icon></v-btn>
           </div>
           </v-col>
         </v-row>
@@ -78,6 +78,13 @@ export default {
     goToHome(){
       this.$router.push('/')
       document.body.scrollTop = document.documentElement.scrollTop = 0;
+    },
+    goToSearch(){
+      if(this.$route.path=='/'){
+        window.location.href='/#search'
+      }else{
+        this.$router.push('/')
+      }
     }
   }
 }

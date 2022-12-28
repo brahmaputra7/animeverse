@@ -65,4 +65,4 @@ item with image, score, and adding to watchlist option
 
 ## View 4: 11. Watchlist list, Add Button
 
-User can save their own anime preference in multiple watchlist. Works like adding playlist to spotify.
+User can save their own anime preference in multiple watchlist.

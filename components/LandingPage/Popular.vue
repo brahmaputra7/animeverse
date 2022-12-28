@@ -23,7 +23,7 @@
                                 :src="item.images.jpg.image_url"
                             ></v-img>
                             <div class="animeCard__text mt-1">
-                                {{ item.title }}
+                                {{ item.title_english }}
                                 
                                 {{ item.score }}
                             </div>

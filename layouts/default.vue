@@ -36,8 +36,9 @@ export default {
     }
   },
   created(){
+    console.log(localStorage.dark)
     //defining theme from latest user state
-    if(!localStorage.dark==undefined){
+    if(localStorage.dark==undefined){
       localStorage.dark = 'dark'
     }else{
       this.$vuetify.theme.dark = localStorage.dark

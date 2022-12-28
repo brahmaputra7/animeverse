@@ -13,23 +13,69 @@
         <v-container class="animeDetail">
             <v-row>
                 <v-col cols="12" md="8">
+
                     
-                    <div class="animeDetail__title">{{ animeData.title }}</div>
-                    <div class="d-flex align-center" style="flex-flow:row wrap">
-                        <div>
-                            <v-icon small class="mr-1">mdi-star</v-icon>{{ animeData.score }}/10 <b class="ml-1"> ({{ kFormatter(animeData.scored_by) }})</b>
+                    <div class="mt-5 animeDetail__title">{{ animeData.title }}</div>
+                    <div class="animeDetail__alternatives mt-2">
+                        <b>Alternatives:</b>
+                        <i v-for="item,index in animeData.titles" :key="index">
+                            {{ item.title }} <span v-if="index!=animeData.titles.length -1">, </span>
+                        </i>
+                    </div>
+                    
+                    <div class="statisticInfo d-flex mt-5">
+                        <div class="statisticInfo__item">
+                            <div class="statisticInfo__item__scoretext">score</div>
+                            <div class="statisticInfo__item__score">{{ animeData.score }}</div>
+                            <div class="statisticInfo__item__users"> {{numberWithCommas(animeData.scored_by)}} users </div>
+                        </div>
+                        <div class="statisticInfo__item">
+                            <div class="statisticInfo__item__scoretext">rank</div>
+                            <div class="statisticInfo__item__score">#{{ animeData.rank }}</div>
+                            <div class="statisticInfo__item__users">  </div>
+                        </div>
+                        <div class="statisticInfo__item">
+                            <div class="statisticInfo__item__scoretext">popularity</div>
+                            <div class="statisticInfo__item__score">#{{ animeData.popularity }}</div>
+                            <div class="statisticInfo__item__users">  </div>
+                        </div>
+                        <div class="statisticInfo__item">
+                            <div class="statisticInfo__item__scoretext">members</div>
+                            <div class="statisticInfo__item__members">{{ numberWithCommas(animeData.members) }}</div>
+                            <div class="statisticInfo__item__users">  </div>
                         </div>
                     </div>
+
                     <div class="my-5">
                         <v-btn color="orange" outlined><v-icon>mdi-bookmark-plus-outline</v-icon><b>ADD TO WATCHLIST</b></v-btn>
                     </div>
-                    <div class="animeDetail__desc">{{ animeData.synopsis }}</div>
+
+
+
+                    
+
+                    <v-divider class="my-3"></v-divider>
+
+                    
+
+                    <div class="animeDetail__desc mt-3">{{ animeData.synopsis }}</div>
+
                     <v-btn class="mt-2" x-small rounded outlined>READ MORE</v-btn>
                     
+                    <div class="mt-2">
+                        <i>Source: {{ animeData.source }}</i>
+                    </div>
+
+                    
+
                 </v-col>
+
                 <v-col cols="12" md="4">
-                    <iframe width="100%" height="250px" :src="animeData.trailer.embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="mt-5">
+                        <iframe width="100%" height="250px" :src="animeData.trailer.embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </v-col>
+
             </v-row>
         </v-container>
         </template>
@@ -75,6 +121,9 @@ export default {
         },
         kFormatter(num) {
             return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+        },
+        numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 }
@@ -91,6 +140,10 @@ export default {
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;;
+        }
+        .animeDetail__alternatives {
+            max-width:500px;
+            font-size:(0.8em);
         }
     }
 
@@ -124,6 +177,46 @@ export default {
             height:100%;
         }
         
+    }
+
+    .statisticInfo {
+        .statisticInfo__item {
+                .statisticInfo__item__score {
+                    font-size:2rem;
+                }
+                .statisticInfo__item__scoretext {
+                    background-color:#472D0F;
+                    width:100%;
+                    text-align: center;
+                    padding:2px;
+                    border-radius:2px;
+                    color:#fff;
+                }
+                .statisticInfo__item__users{
+                   font-size:0.7rem; 
+                   margin-bottom:2px;
+                }
+                .statisticInfo__item__members{
+                   font-size:1rem; 
+                   margin-bottom:2px;
+                }
+                div{
+                    line-height: 1;
+                }
+                flex-flow:column;
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                height:80px;
+                padding:5px;
+                border:1px solid #7D490C;
+                background: rgba(255, 138, 0, 0.1);
+                
+        flex-grow:1;
+        }
+        -webkit-transform-origin-x: 0;
+        width:100%;
+        flex-flow:row wrap;
     }
 
     @media only screen and (max-width: 600px) {

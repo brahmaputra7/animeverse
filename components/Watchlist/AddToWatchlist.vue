@@ -1,3 +1,5 @@
+<!-- Add to Watchlist Dialog -->
+
 <template>
     <v-dialog v-model="addDialog" width="300">
         <v-card class="pa-5 text-center">
@@ -22,18 +24,27 @@ export default {
     props:['dialog'],
     data(){
         return{
+
+            //status of dialog active
             addDialog:false,
+
+            //current watchlist data, contain name and items
             watchlistData:[],
+
+            //current active data to add
             watchlistDataToAdd:{}
         }
     },
     methods:{
         createWatchlist(){
+
+            //push to watchlist creation if no watchlist found
             this.emptyDialog = false
             this.$router.push('/watchlist')
         },
         checkIfExist(val){
-            
+
+            //checking if the item exist, by mal_id
             let found = false
             this.watchlistData[val].data.forEach((item,index)=>{
                 if(item.mal_id==this.watchlistDataToAdd.mal_id){
@@ -47,6 +58,8 @@ export default {
             }
         },
         updateWatchlistData(index){
+
+            //updating watchlis tdata
             this.watchlistData[index].data.push(this.watchlistDataToAdd)
 
             let watchlistData = JSON.parse(JSON.stringify(this.watchlistData))
@@ -55,6 +68,8 @@ export default {
     },
     watch:{
         '$store.state.store.WatchlistDataAddUpdated'(newV,oldV){
+            
+            //listening to State change
             this.addDialog = true
             this.watchlistData = JSON.parse(JSON.stringify(this.$store.state.store.WatchlistData))
             this.watchlistDataToAdd = JSON.parse(JSON.stringify(this.$store.state.store.WatchlistDataAdd))

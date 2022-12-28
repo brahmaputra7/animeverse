@@ -1,90 +1,108 @@
+<!-- default layout page -->
+
 <template>
   <v-app dark>
 
-    <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':$vuetify.theme.dark, 'grey lighten-3':!$vuetify.theme.dark}" @click="reverseTheme">
+    <!-- theme switch -->
+    <div class="themeSwitch elevation-2"
+      :class="{ 'dark grey darken-3': $vuetify.theme.dark, 'grey lighten-3': !$vuetify.theme.dark }" @click="reverseTheme">
       <v-icon v-if="this.$vuetify.theme.dark" class="yellow--text">mdi-white-balance-sunny</v-icon>
-      <v-icon v-else >mdi-moon-waning-crescent</v-icon>
+      <v-icon v-else>mdi-moon-waning-crescent</v-icon>
     </div>
 
-    
-    
+
+
     <!-- Navigation Bar -->
-    <div class="nverseNavbar" :class="{'grey darken-4':$vuetify.theme.dark, 'grey lighten-4' :!$vuetify.theme.dark}">
+    <div class="nverseNavbar" :class="{ 'grey darken-4': $vuetify.theme.dark, 'grey lighten-4': !$vuetify.theme.dark }">
       <v-container>
         <v-row class="justify-space-between">
           <v-col class="d-flex justify-space-between">
-          <img src="/img/logo.svg" width="130px" @click="goToHome()">
-          <div>
-            <v-btn small text fab @click="goToSearch()"><v-icon>mdi-magnify</v-icon></v-btn>
-            <v-btn small text fab @click="$router.push('/watchlist')"><v-icon>mdi-playlist-play</v-icon></v-btn>
-          </div>
+            <img src="/img/logo.svg" width="130px" @click="goToHome()">
+            <div>
+              <v-btn small text fab @click="goToSearch()"><v-icon>mdi-magnify</v-icon></v-btn>
+              <v-btn small text fab @click="$router.push('/watchlist')"><v-icon>mdi-playlist-play</v-icon></v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-container>
     </div>
     <!-- -->
-    
 
-    <nuxt/>
+    <!-- Nuxt main app -->
+    <nuxt />
 
+    <!-- include router -->
     <Footer></Footer>
 
-    <WatchlistEmpty/>
-    <AddToWatchlist/>
+
+    <!-- include watchlist global components -->
+    <WatchlistEmpty />
+    <AddToWatchlist />
 
   </v-app>
 </template>
 
 <script>
+
+//import every neede components
 import Footer from '~/components/Default/Footer.vue'
 import WatchlistEmpty from '~/components/Watchlist/WatchlistEmpty.vue'
 import AddToWatchlist from '~/components/Watchlist/AddToWatchlist.vue'
 
 
 export default {
-  
-  components:{
-        Footer,
-        WatchlistEmpty,
-        AddToWatchlist,
-    },
 
-  data(){
+  components: {
+    Footer,
+    WatchlistEmpty,
+    AddToWatchlist,
+  },
+
+  data() {
     return {
 
     }
   },
-  created(){
+  created() {
+
     //defining theme from latest user state
-    if(localStorage.dark==undefined){
+    if (localStorage.dark == undefined) {
       localStorage.dark = 'dark'
-    }else{
+    } else {
       this.$vuetify.theme.dark = localStorage.dark
-    } 
-    if(localStorage.WatchlistData!=undefined&&localStorage.WatchlistData!=='undefined'){
-      console.log("hepped")
-      console.log(localStorage)
-      this.$store.commit('store/updateWatchlistData',JSON.parse(localStorage.WatchlistData))
     }
 
-  },  
-  methods:{
-    reverseTheme(){
+    //fetching localStorage data
+    if (localStorage.WatchlistData != undefined && localStorage.WatchlistData !== 'undefined') {
+      this.$store.commit('store/updateWatchlistData', JSON.parse(localStorage.WatchlistData))
+    }
+
+  },
+  methods: {
+
+    reverseTheme() {
+
       //theme switching
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+
       //saving current theme option
       localStorage.dark = this.$vuetify.theme.dark
     },
-    goToHome(){
+    goToHome() {
+
+      //push to home and scroll to top
       this.$router.push('/')
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     },
-    goToSearch(){
-      if(this.$route.path=='/'){
-        window.location.href='/#search'
-      }else{
+    goToSearch() {
+
+      //go to home if from another page, go to search if from home
+      if (this.$route.path == '/') {
+        window.location.href = '/#search'
+      } else {
         this.$router.push('/')
       }
+
     }
   }
 }
@@ -93,8 +111,9 @@ export default {
 <style lang="scss" scoped>
 .themeSwitch {
   &:hover {
-    transform:scale(1.1);
+    transform: scale(1.1);
   }
+
   transition:0.2s;
   position:fixed;
   cursor:pointer;
@@ -107,19 +126,21 @@ export default {
 
 
 .nverseNavbar {
-  width:100%;
-  position:fixed;
-  z-index:10;
-  height:60px;
-  display:flex;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  height: 60px;
+  display: flex;
   align-items: center;
   justify-content: center;
+
   img {
-    transition:0.4s;
-    cursor:pointer;
+    transition: 0.4s;
+    cursor: pointer;
+
     &:hover {
       filter: invert(100%);
-      transform:scale(0.8);
+      transform: scale(0.8);
     }
   }
 }

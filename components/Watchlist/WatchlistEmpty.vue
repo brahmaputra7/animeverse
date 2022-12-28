@@ -1,3 +1,5 @@
+<!-- Dialog if watchlist is empty-->
+
 <template>
     <v-dialog v-model="emptyDialog" width="300">
         <v-card class="pa-5 text-center">

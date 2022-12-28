@@ -16,6 +16,81 @@
                             <v-text-field label="Find your favorite anime here..." dense outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
                         </div>
                     </v-col>
+
+                    <v-col cols="12" md="3" class="filterItem pa-3 mb-3 text-center pt-5">
+                        Set Maximum and Minimum Score
+                        <v-range-slider
+                            v-model="range"
+                            @change="setMinMaxScore()"
+                            :max="10"
+                            :min="0"
+                            hide-details
+                            class="align-center mt-3"
+                        >
+                            <template v-slot:prepend>
+                            <v-text-field
+                                :value="range[0]"
+                                class="mt-0 pt-0"
+                                hide-details
+                                single-line
+                                type="number"
+                                style="width: 50px"
+                                outlined
+                                dense
+                                @change="$set(range, 0, $event)"
+                            ></v-text-field>
+                            </template>
+                            <template v-slot:append>
+                            <v-text-field
+                                :value="range[1]"
+                                class="mt-0 pt-0"
+                                hide-details
+                                single-line
+                                type="number"
+                                style="width: 60px"
+                                outlined
+                                dense
+                                @change="$set(range, 1, $event)"
+                            ></v-text-field>
+                            </template>
+                        </v-range-slider>
+                    </v-col>
+
+                    
+                    <v-col cols="12" md="3" class="filterItem d-flex align-center justify-start pa-3 mb-3 pt-5" style="flex-flow:column wrap">
+
+                        Filter by Status
+                        <v-btn-toggle v-model="filter.status" @change="retrieveAnime()"  class="mt-3">
+                            <v-btn value="airing" small>
+                                Airing
+                            </v-btn>
+                            <v-btn value="upcoming" small>
+                                Upcoming
+                            </v-btn>
+                            <v-btn value="complete" small>
+                                Complete
+                            </v-btn>
+                        </v-btn-toggle>
+                    </v-col>
+                    
+                    <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
+                        Order By
+                        <v-autocomplete hide-details="" v-model="filter.order_by" outlined width="100%" dense class="mt-3" :items="sortItems" @change="retrieveAnime()"></v-autocomplete>
+                        <v-btn-toggle v-model="filter.sort" @change="retrieveAnime()"  class="mt-3" v-if="filter.order_by!=='none'">
+                            <v-btn value="asc" small>
+                                Ascending
+                            </v-btn>
+                            <v-btn value="desc" small>
+                                Descending
+                            </v-btn>
+                        </v-btn-toggle>
+
+                    </v-col>
+                    
+                    <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
+                        <div class="d-flex"> Rating <v-icon small class="ml-3" @click="animeRating=true"> mdi-information</v-icon></div>
+                        <v-autocomplete hide-details="" v-model="filter.rating" outlined width="100%" dense class="mt-3" :items="ratingItems" @change="retrieveAnime()"></v-autocomplete>
+                    </v-col>
                 </v-row>
             <v-row>
             
@@ -31,6 +106,11 @@
                                 {{ item.score }}
                             </div>
 
+
+                            <div v-if="item.rank<11" class="animeCard__rank purple darken-3 elevation-5">
+                                <div class="animeCard__rank__title">TOP</div>
+                                <div class="animeCard__rank__value">10</div>
+                            </div>
                         <v-img
                             lazy-src="https://picsum.photos/id/11/10/6"
                             height="250"
@@ -69,6 +149,18 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-dialog v-model="animeRating" width="300px">
+            <v-card class="pa-5">  
+                <b>Rating Information</b>  <br/>
+                G - All Ages <br/>
+                PG - Children <br/>
+                PG-13 - Teens 13 or older <br/>
+                R - 17+ (violence & profanity) <br/>
+                R+ - Mild Nudity <br/>
+                Rx - Hentai
+
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -81,11 +173,10 @@ export default {
           //contain anime data from API
           animeData:[],
 
-        
           //Loader state when API fetching
           animeLoader:false,
 
-          
+          animeRating:false,
           //current pagination
           paginationNumber:1,
 
@@ -93,7 +184,22 @@ export default {
           paginationData:{},
 
           //search field text field model
-          searchKey:''
+          searchKey:'',
+
+          range:[0,10],
+
+          sortItems:['none','title','type','episodes','score','popularity','members','favorites'],
+          
+          ratingItems:['none','g','pg','pg13','r17','r','rx'],
+          
+          filter:{
+            max_score:10,
+            min_score:0,
+            status:'',
+            order_by:'none',
+            sort:'asc',
+            rating:'none'
+          }
       }
   },
   created(){
@@ -111,13 +217,46 @@ export default {
           if(event=='search'){
               this.paginationNumber = 1
           }
+
           let search = ''
           console.log(this.searchKey)
           if(this.searchKey!==''){
               search = '&q='+this.searchKey
           }
+          
+          let max_score = ''
+          console.log(this.searchKey)
+          if(this.filter.max_score!==''){
+            max_score = '&max_score='+this.filter.max_score
+          }
 
-          axios.get('https://api.jikan.moe/v4/anime?limit=12&page='+this.paginationNumber+search)
+          let min_score = ''
+          if(this.filter.min_score!==''){
+            min_score = '&min_score='+this.filter.min_score
+          }
+
+            let status = ''
+            if(this.filter.status!==''){
+                status = '&status='+this.filter.status
+            }
+            
+            let order_by = ''
+            if(this.filter.order_by!=='none'){
+                order_by = '&order_by='+this.filter.order_by
+            }
+            
+            let sort = ''
+            if(this.filter.sort!==''){
+                sort = '&sort='+this.filter.sort
+            }
+
+            let rating = ''
+            if(this.filter.rating!==''){
+                rating = '&rating='+this.filter.rating
+            }
+
+            console.log('https://api.jikan.moe/v4/anime?limit=12&page='+this.paginationNumber+search+max_score+min_score+status+order_by+sort + rating)
+          axios.get('https://api.jikan.moe/v4/anime?limit=12&page='+this.paginationNumber+search+max_score+min_score+status+order_by+sort + rating)
               .then(res=>{
                   this.animeData = res.data.data
                   this.paginationData = res.data.pagination
@@ -131,6 +270,11 @@ export default {
       viewDetails(item){
         console.log(item)
         this.$router.push('/details/' + item.mal_id)
+      },
+      setMinMaxScore(){
+        this.filter.min_score = this.range[0]
+        this.filter.max_score = this.range[1]
+        this.retrieveAnime()
       },
       addToWatchlist(val){
             if(this.$store.state.store.WatchlistData.length==0){
@@ -159,3 +303,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.filterItem{
+    padding:20px;
+    border:1px solid grey;
+}
+</style>

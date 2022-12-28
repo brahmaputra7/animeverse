@@ -1,5 +1,5 @@
 # Animeverse
-A web application to discover anime and create a watchlist. With animeverse, you can discover popular anime, use some search and filtering features, and creating multiple watchlist.
+A web application to discover anime and create watchlists. With animeverse, you can discover popular anime, utilizing search and filtering features, and creating multiple watchlist.
 
 Deployment link:
 https://animeverse-amartha.netlify.app

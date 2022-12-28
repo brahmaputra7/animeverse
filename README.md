@@ -1,10 +1,19 @@
-# animeverse
+# Animeverse
+A web application to discover anime and create a watchlist. With animeverse, you can discover popular anime, use some search and filtering features, and creating multiple watchlist.
 
-> Anime Verse
+Deployment link:
+https://animeverse-amartha.netlify.app
 
-## Build Setup
+API Source:
+https://docs.api.jikan.moe/#tag/top
+
+![alt text](https://brahmaptr.com/readme/1.png)
+
+## HOW TO USE
+Please follow steps below to run this apps in your machine.
 
 ``` bash
+
 # install dependencies
 $ npm run install
 

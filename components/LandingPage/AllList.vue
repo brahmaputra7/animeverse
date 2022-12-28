@@ -13,88 +13,99 @@
                     </v-col>
                     <v-col cols="12" class="d-flex justify-center align-center">
                         <div style="max-width:800px;width:100%">
-                            <v-text-field label="Find your favorite anime here..." dense outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
+                            <v-text-field hide-details label="Find your favorite anime here..." dense outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
                         </div>
                     </v-col>
 
-                    <v-col cols="12" md="3" class="filterItem pa-3 mb-3 text-center pt-5">
-                        Set Maximum and Minimum Score
-                        <v-range-slider
-                            v-model="range"
-                            @change="setMinMaxScore()"
-                            :max="10"
-                            :min="0"
-                            hide-details
-                            class="align-center mt-3"
-                        >
-                            <template v-slot:prepend>
-                            <v-text-field
-                                :value="range[0]"
-                                class="mt-0 pt-0"
-                                hide-details
-                                single-line
-                                type="number"
-                                style="width: 50px"
-                                outlined
-                                dense
-                                @change="$set(range, 0, $event)"
-                            ></v-text-field>
-                            </template>
-                            <template v-slot:append>
-                            <v-text-field
-                                :value="range[1]"
-                                class="mt-0 pt-0"
-                                hide-details
-                                single-line
-                                type="number"
-                                style="width: 60px"
-                                outlined
-                                dense
-                                @change="$set(range, 1, $event)"
-                            ></v-text-field>
-                            </template>
-                        </v-range-slider>
+                    <v-col cols="12" class="d-flex justify-center align-center">
+                        <v-btn @click="showFilter=!showFilter"><v-icon small class="mr-2">mdi-filter</v-icon> <span v-if="showFilter" class="mr-1">HIDE</span><span class="mr-1" v-else>SHOW</span> FILTER</v-btn>
                     </v-col>
 
-                    
-                    <v-col cols="12" md="3" class="filterItem d-flex align-center justify-start pa-3 mb-3 pt-5" style="flex-flow:column wrap">
-
-                        Filter by Status
-                        <v-btn-toggle v-model="filter.status" @change="retrieveAnime()"  class="mt-3">
-                            <v-btn value="airing" small>
-                                Airing
-                            </v-btn>
-                            <v-btn value="upcoming" small>
-                                Upcoming
-                            </v-btn>
-                            <v-btn value="complete" small>
-                                Complete
-                            </v-btn>
-                        </v-btn-toggle>
-                    </v-col>
-                    
-                    <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
-                        Order By
-                        <v-autocomplete hide-details="" v-model="filter.order_by" outlined width="100%" dense class="mt-3" :items="sortItems" @change="retrieveAnime()"></v-autocomplete>
-                        <v-btn-toggle v-model="filter.sort" @change="retrieveAnime()"  class="mt-3" v-if="filter.order_by!=='none'">
-                            <v-btn value="asc" small>
-                                Ascending
-                            </v-btn>
-                            <v-btn value="desc" small>
-                                Descending
-                            </v-btn>
-                        </v-btn-toggle>
-
-                    </v-col>
-                    
-                    <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
-                        <div class="d-flex"> Rating <v-icon small class="ml-3" @click="animeRating=true"> mdi-information</v-icon></div>
-                        <v-autocomplete hide-details="" v-model="filter.rating" outlined width="100%" dense class="mt-3" :items="ratingItems" @change="retrieveAnime()"></v-autocomplete>
-                    </v-col>
                 </v-row>
             <v-row>
             
+        <v-expand-transition>
+            <v-row v-if="showFilter" class="mt-3">
                 
+
+
+                <v-col cols="12" md="3" class="filterItem pa-3 mb-3 text-center pt-5">
+                            Set Maximum and Minimum Score
+                            <v-range-slider
+                                v-model="range"
+                                @change="setMinMaxScore()"
+                                :max="10"
+                                :min="0"
+                                hide-details
+                                class="align-center mt-3"
+                            >
+                                <template v-slot:prepend>
+                                <v-text-field
+                                    :value="range[0]"
+                                    class="mt-0 pt-0"
+                                    hide-details
+                                    single-line
+                                    type="number"
+                                    style="width: 50px"
+                                    outlined
+                                    dense
+                                    @change="$set(range, 0, $event)"
+                                ></v-text-field>
+                                </template>
+                                <template v-slot:append>
+                                <v-text-field
+                                    :value="range[1]"
+                                    class="mt-0 pt-0"
+                                    hide-details
+                                    single-line
+                                    type="number"
+                                    style="width: 60px"
+                                    outlined
+                                    dense
+                                    @change="$set(range, 1, $event)"
+                                ></v-text-field>
+                                </template>
+                            </v-range-slider>
+                        </v-col>
+
+                        
+                        <v-col cols="12" md="3" class="filterItem d-flex align-center justify-start pa-3 mb-3 pt-5" style="flex-flow:column wrap">
+
+                            Filter by Status
+                            <v-btn-toggle v-model="filter.status" @change="retrieveAnime()"  class="mt-3">
+                                <v-btn value="airing" small>
+                                    Airing
+                                </v-btn>
+                                <v-btn value="upcoming" small>
+                                    Upcoming
+                                </v-btn>
+                                <v-btn value="complete" small>
+                                    Complete
+                                </v-btn>
+                            </v-btn-toggle>
+                        </v-col>
+                        
+                        <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
+                            Order By
+                            <v-autocomplete hide-details="" v-model="filter.order_by" outlined width="100%" dense class="mt-3" :items="sortItems" @change="retrieveAnime()"></v-autocomplete>
+                            <v-btn-toggle v-model="filter.sort" @change="retrieveAnime()"  class="mt-3" v-if="filter.order_by!=='none'">
+                                <v-btn value="asc" small>
+                                    Ascending
+                                </v-btn>
+                                <v-btn value="desc" small>
+                                    Descending
+                                </v-btn>
+                            </v-btn-toggle>
+
+                        </v-col>
+                        
+                        <v-col cols="12 " md="3" class="filterItem d-flex align-center justify-center pa-3 mb-3" style="flex-flow:column wrap">
+                            <div class="d-flex"> Rating <v-icon small class="ml-3" @click="animeRating=true"> mdi-information</v-icon></div>
+                            <v-autocomplete hide-details="" v-model="filter.rating" outlined width="100%" dense class="mt-3" :items="ratingItems" @change="retrieveAnime()"></v-autocomplete>
+                        </v-col>
+
+            </v-row>
+        </v-expand-transition>
             <!-- Populate: Anime Data-->
             <template v-if="!animeLoader">
                 <v-col cols="6" sm="3" md="2" v-for="item,index in animeData" :key="index"  @click.stop="viewDetails(item)">
@@ -187,6 +198,8 @@ export default {
           searchKey:'',
 
           range:[0,10],
+
+          showFilter:false,
 
           sortItems:['none','title','type','episodes','score','popularity','members','favorites'],
           

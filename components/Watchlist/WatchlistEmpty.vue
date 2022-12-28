@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="emptyDialog" width="300">
         <v-card class="pa-5 text-center">
-            <div>You have no watchlist.</div>
+            <div>You don't have any watchlist.</div>
             <v-btn outlined class="primary mt-5"  @click="createWatchlist()">CREATE A WATCHLIST</v-btn>
         </v-card>
     </v-dialog>

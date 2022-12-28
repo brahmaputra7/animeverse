@@ -25,6 +25,9 @@ export default {
   */
   css: [
   ],
+  generate: {
+    fallback: true
+  },
   /*
   ** Plugins to load before mounting the App
   */

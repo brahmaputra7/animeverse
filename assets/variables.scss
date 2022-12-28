@@ -8,6 +8,7 @@ $outline-brown:#7D490C;
 
 .nverseContent {
     padding-top:60px;
+    min-height:calc(100vh - 60px);
 }
 
 
@@ -19,4 +20,8 @@ html, body, .v-application {
   overflow:auto !important;
   height:100%;
   font-size:14px;
+}
+
+.flex-row-wrap {
+  flex-flow:row wrap;
 }

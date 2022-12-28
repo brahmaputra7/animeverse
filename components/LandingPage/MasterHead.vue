@@ -11,7 +11,7 @@
                         <div style="font-size:1.8rem">Welcome to animeverse!</div>
                         <div>Discover anime, create a watchlist, and enjoy your holliday season.</div>
                         <div class="mt-3">
-                            <v-btn rounded outlined dark>Set Up your Watchlist<v-icon>mdi-arrow-right</v-icon></v-btn>
+                            <v-btn rounded outlined dark @click="$router.push('/watchlist')">Set Up your Watchlist<v-icon>mdi-arrow-right</v-icon></v-btn>
                         </div>
                     </div>
                 </div>

@@ -18,12 +18,13 @@
                         <div class="animeCard mb-10" @click="viewDetails(item)">
 
                             <div class="animeCard__score d-flex align-center px-1">
-                                <v-icon x-small class="mr-1 yellow--text">mdi-star</v-icon>
+                                <v-icon x-small class="mr-1 yellow--text" v-if="item.score < 7">mdi-star-half-full</v-icon>
+                                <v-icon x-small class="mr-1 yellow--text" v-else>mdi-star</v-icon>
                                 {{ item.score }}
                             </div>
 
                             <div v-if="item.rank<11" class="animeCard__rank purple darken-3 elevation-5">
-                                <div>TOP</div>
+                                <div class="animeCard__rank__title">TOP</div>
                                 <div class="animeCard__rank__value">10</div>
                             </div>
 
@@ -34,6 +35,11 @@
                                 :src="item.images.jpg.image_url"
                             ></v-img>
                             <div class="animeCard__text mt-1">
+                                
+                            <div class="animeCard__text__add mb-2">
+                               <v-btn block x-small class="green" text><v-icon x-small>mdi-plus</v-icon> ADD TO WATCHLIST</v-btn>
+                            </div>
+
                                 {{ item.title }}
                             </div>
                         </div>
@@ -115,9 +121,13 @@ export default {
           height:fit-content;
           background:grey;  
           padding:10px;
-          transform:translateY(-40%);
+          transform:translateY(-70%);
           background-color:#353535;
           color:#fff;
+          
+        .animeCard__text__add {
+            display:block;
+        }
       }
   }
   .animeCard__text {
@@ -128,7 +138,10 @@ export default {
       overflow: hidden;
       padding:0 5px;
       z-index:9;
-      border-radius:0 0 10px 10px;
+      border-radius:0 0 10px 10px;  
+        .animeCard__text__add {
+            display:none;
+        }
   }
 
   .animeCard__score {
@@ -140,6 +153,7 @@ export default {
     border-radius:5px;
     z-index:1;
     background: rgba(0, 0, 0, 0.84);
+    color:#fff;
   }
 
   .animeCard__rank{
@@ -148,9 +162,17 @@ export default {
         line-height: 1;
     }
     font-weight: bold;
-    .animeCard__rank__value {
-        font-size:2rem;
+    .animeCard__rank__title{
+        font-size:0.8em;
     }
+    .animeCard__rank__value {
+        font-size:1.5rem;
+    }
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    flex-flow:column;
     position:absolute;
     top:0;
     right:0;;

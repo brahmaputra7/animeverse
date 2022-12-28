@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
 
-    <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':$vuetify.theme.dark}" @click="reverseTheme">
+    <div class="themeSwitch elevation-2" :class="{'dark grey darken-3':$vuetify.theme.dark, 'grey lighten-3':!$vuetify.theme.dark}" @click="reverseTheme">
       <v-icon v-if="this.$vuetify.theme.dark" class="yellow--text">mdi-white-balance-sunny</v-icon>
       <v-icon v-else >mdi-moon-waning-crescent</v-icon>
     </div>
@@ -15,7 +15,8 @@
           <v-col class="d-flex justify-space-between">
           <img src="/img/logo.svg" width="130px" @click="goToHome()">
           <div>
-            POPULAR
+            <v-btn small text fab @click="$router.push('/#search')"><v-icon>mdi-magnify</v-icon></v-btn>
+            <v-btn small text fab><v-icon>mdi-playlist-play</v-icon></v-btn>
           </div>
           </v-col>
         </v-row>
@@ -78,7 +79,7 @@ export default {
   position:fixed;
   cursor:pointer;
   bottom:20px;
-  right:20px;
+  right:40px;
   z-index:10;
   padding:10px;
   border-radius:100%;

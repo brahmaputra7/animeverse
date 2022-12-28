@@ -3,7 +3,7 @@
     padless
   >
         <v-card
-        flat
+        text
         tile
         class="text-center"
         width="100%"

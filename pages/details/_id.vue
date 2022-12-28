@@ -22,22 +22,22 @@
                     </div>
                     
                     <div class="statisticInfo d-flex mt-5">
-                        <div class="statisticInfo__item">
+                        <div class="statisticInfo__item" v-if="animeData.score!==null&&animeData.score!==0">
                             <div class="statisticInfo__item__scoretext">score</div>
                             <div class="statisticInfo__item__score">{{ animeData.score }}</div>
                             <div class="statisticInfo__item__users"> {{numberWithCommas(animeData.scored_by)}} users </div>
                         </div>
-                        <div class="statisticInfo__item">
+                        <div class="statisticInfo__item" v-if="animeData.rank!=null&&animeData.rank!==0">
                             <div class="statisticInfo__item__scoretext">rank</div>
                             <div class="statisticInfo__item__score">#{{ animeData.rank }}</div>
                             <div class="statisticInfo__item__users">  </div>
                         </div>
-                        <div class="statisticInfo__item">
+                        <div class="statisticInfo__item" v-if="animeData.popularity!==null&&animeData.popularity!==0">
                             <div class="statisticInfo__item__scoretext">popularity</div>
                             <div class="statisticInfo__item__score">#{{ animeData.popularity }}</div>
                             <div class="statisticInfo__item__users">  </div>
                         </div>
-                        <div class="statisticInfo__item">
+                        <div class="statisticInfo__item" v-if="animeData.members!==null&&animeData.members!==0">
                             <div class="statisticInfo__item__scoretext">members</div>
                             <div class="statisticInfo__item__members">{{ numberWithCommas(animeData.members) }}</div>
                             <div class="statisticInfo__item__users">  </div>
@@ -65,17 +65,17 @@
 
                 <v-col cols="12" md="4">
 
-                    
-                
-                    <div class="watchNow mt-5">
 
-                        <div class="mt-5">
+                    <div class="mt-5" v-if="animeData.trailer.embed_url!==null">
                             <iframe width="100%" height="250px" :src="animeData.trailer.embed_url" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
 
                         <div class="my-3">
                            <v-btn block><v-icon>mdi-link</v-icon>Visit Official Page</v-btn>
                         </div>
+                    
+                
+                    <div class="watchNow mt-5" v-if="animeData.streaming.length!==0">
 
                         <div class="watchNow__title text-center">
                             Watch now on:

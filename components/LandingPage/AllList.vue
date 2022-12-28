@@ -8,13 +8,13 @@
             <v-row class="mt-2">
                     <v-col cols="12" class="text-center">
                         <div>
-                        Discover All Anime
+                            <h1> Discover All Anime</h1>
                         </div>
                     </v-col>
-                    <v-col cols="12" class="d-flex justify-space-between align-center">
-                        <div style="max-width:500px">
-                        <v-text-field outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
-                    </div>
+                    <v-col cols="12" class="d-flex justify-center align-center">
+                        <div style="max-width:800px;width:100%">
+                            <v-text-field label="Find your favorite anime here..." dense outlined rounded prepend-inner-icon="mdi-magnify" @keyup.enter="retrieveAnime('search')" v-model="searchKey"></v-text-field>
+                        </div>
                     </v-col>
                 </v-row>
             <v-row>
@@ -26,10 +26,11 @@
                     <div class="animeCard mb-10">
                         
                         <div class="animeCard__score d-flex align-center px-1">
-                                <v-icon x-small class="mr-1 yellow--text">mdi-star</v-icon>
+                                <v-icon x-small class="mr-1 yellow--text" v-if="item.score < 7">mdi-star-half-full</v-icon>
+                                <v-icon x-small class="mr-1 yellow--text" v-else>mdi-star</v-icon>
                                 {{ item.score }}
                             </div>
-                            
+
                         <v-img
                             lazy-src="https://picsum.photos/id/11/10/6"
                             height="250"
@@ -37,9 +38,11 @@
                             :src="item.images.jpg.image_url"
                         ></v-img>
                         <div class="animeCard__text mt-1">
+                            <div class="animeCard__text__add mb-2">
+                               <v-btn block x-small class="green" text><v-icon x-small>mdi-plus</v-icon> ADD TO WATCHLIST</v-btn>
+                            </div>
                             {{ item.title }}
                             
-                            {{ item.score }}
                         </div>
                     </div>
                 </v-col>
@@ -48,7 +51,7 @@
                 <v-col cols="6" sm="3" md="2" v-for="index in 12" :key="index">
                     <v-skeleton-loader
                         type="card"
-                        height="270"
+                        height="290"
                     ></v-skeleton-loader>
                 </v-col>
             </template>

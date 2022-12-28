@@ -39,7 +39,7 @@
                             Currently no item added to this group. Discover animes then add it here.
                         </div>
                         <template v-else>
-                            <div v-for="itemAnime,indexAnime in item.data" :key="indexAnime+'anime'" class="watchlistItem ">
+                            <div v-for="itemAnime,indexAnime in item.data" :key="indexAnime+'anime'" class="watchlistItem"  v-ripple @click="$router.push('/details/'+itemAnime.mal_id)">
                                 <div class="d-flex align-center justify-space-between" style="flex-flow:row wrap">
                                     <div class="d-flex align-center" style="flex-flow:row wrap">
                                         <div class="watchlistItem__imagepreview mr-4">
@@ -52,7 +52,7 @@
                                     </div>
                                     <div>
                                         <v-btn class="error">
-                                            <v-icon @click="deleteItem(index,indexAnime)">mdi-delete</v-icon>
+                                            <v-icon @click.stop="deleteItem(index,indexAnime)">mdi-delete</v-icon>
                                         </v-btn>
                                     </div>
                                 </div>
@@ -152,6 +152,7 @@ export default {
         height:100px;
         overflow:hidden;
     }
+    cursor:pointer;
     border-bottom:1px solid grey;
     padding:10px;
     margin:15px 0;

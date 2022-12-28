@@ -7,6 +7,9 @@ https://animeverse-amartha.netlify.app
 API Source:
 https://docs.api.jikan.moe/#tag/top
 
+Explanation:
+https://github.com/brahmaputra7/animeverse/blob/main/Explanation.md
+
 ![alt text](https://brahmaptr.com/readme/1.png)
 
 ## HOW TO USE

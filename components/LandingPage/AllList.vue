@@ -24,6 +24,12 @@
             <template v-if="!animeLoader">
                 <v-col cols="6" sm="3" md="2" v-for="item,index in animeData" :key="index"  @click="viewDetails(item)">
                     <div class="animeCard mb-10">
+                        
+                        <div class="animeCard__score d-flex align-center px-1">
+                                <v-icon x-small class="mr-1 yellow--text">mdi-star</v-icon>
+                                {{ item.score }}
+                            </div>
+                            
                         <v-img
                             lazy-src="https://picsum.photos/id/11/10/6"
                             height="250"

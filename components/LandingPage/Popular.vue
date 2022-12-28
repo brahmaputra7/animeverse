@@ -16,6 +16,17 @@
                 <template v-if="!animeLoader">
                     <v-col cols="6" sm="3" md="2" v-for="item,index in topAnimeData" :key="index">
                         <div class="animeCard mb-10" @click="viewDetails(item)">
+
+                            <div class="animeCard__score d-flex align-center px-1">
+                                <v-icon x-small class="mr-1 yellow--text">mdi-star</v-icon>
+                                {{ item.score }}
+                            </div>
+
+                            <div v-if="item.rank<11" class="animeCard__rank purple darken-3 elevation-5">
+                                <div>TOP</div>
+                                <div class="animeCard__rank__value">10</div>
+                            </div>
+
                             <v-img
                                 lazy-src="https://picsum.photos/id/11/10/6"
                                 height="250"
@@ -24,8 +35,6 @@
                             ></v-img>
                             <div class="animeCard__text mt-1">
                                 {{ item.title }}
-                                
-                                {{ item.score }}
                             </div>
                         </div>
                     </v-col>
@@ -120,6 +129,32 @@ export default {
       padding:0 5px;
       z-index:9;
       border-radius:0 0 10px 10px;
+  }
+
+  .animeCard__score {
+    
+    position:absolute;
+    top:5px;
+    left:5px;
+    padding:1px;
+    border-radius:5px;
+    z-index:1;
+    background: rgba(0, 0, 0, 0.84);
+  }
+
+  .animeCard__rank{
+    padding:5px;
+    div {
+        line-height: 1;
+    }
+    font-weight: bold;
+    .animeCard__rank__value {
+        font-size:2rem;
+    }
+    position:absolute;
+    top:0;
+    right:0;;
+    z-index:1;
   }
   .v-img {
     border-radius:10px;
